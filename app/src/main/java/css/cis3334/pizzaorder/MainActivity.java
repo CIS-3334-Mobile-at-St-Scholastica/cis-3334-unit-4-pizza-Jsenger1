@@ -36,8 +36,8 @@ public class MainActivity extends AppCompatActivity implements updateViewInterfa
         rbLarge = (RadioButton) findViewById(R.id.radioButtonLarge);
 
         rbSmall.append(" -- Price: " + pizzaOrderSystem.getPrice(Pizza.pizzaSize.SMALL) + "$");
-        rbMedium.append(" -- Price: " + pizzaOrderSystem.getPrice(Pizza.pizzaSize.SMALL) + "$");
-        rbLarge.append(" -- Price: " + pizzaOrderSystem.getPrice(Pizza.pizzaSize.SMALL) + "$");
+        rbMedium.append(" -- Price: " + pizzaOrderSystem.getPrice(Pizza.pizzaSize.MEDIUM) + "$");
+        rbLarge.append(" -- Price: " + pizzaOrderSystem.getPrice(Pizza.pizzaSize.LARGE) + "$");
 
         // Set up the Check Boxes
         chkbxCheese = (CheckBox) findViewById(R.id.checkBoxCheese);
@@ -64,10 +64,43 @@ public class MainActivity extends AppCompatActivity implements updateViewInterfa
         String orderDescription = "No orders yet";
 
         // ****** For the Practice Activity, students need to call to OrderPizza here
-        pizzaOrderSystem.OrderPizza("Peperoni", "large", false);
-        txtTotal.append(pizzaOrderSystem.getTotalBill().toString());
+        //pizzaOrderSystem.OrderPizza("Peperoni", "large", false);
+       // check about delivery and setting it based on user input
+        boolean delivery = false;
+        if (chkbxDelivery.isChecked()){
+            delivery = true;
+        }
 
-        //pizzaOrderSystem.OrderPizza()
+        pizzaOrderSystem.setDelivery(delivery);
+
+        // instantiating variables for size and cheese
+        String size = "small";
+        boolean extraCheese = false;
+
+
+        String topping = spinnerToppings.getSelectedItem().toString();
+        //check the size of pizza
+        if(rbSmall.isChecked()){
+            size = "small";
+        }
+        else if(rbMedium.isChecked()){
+            size = "medium";
+        }
+        else if(rbLarge.isChecked()){
+            size = "large";
+
+        }
+        //check for extra cheese
+        if (chkbxCheese.isChecked()){
+            extraCheese = true;
+        }
+
+        // set descriptiong to match pizza order
+        orderDescription = pizzaOrderSystem.OrderPizza(topping,size,extraCheese);
+
+        // set bill total and display it
+        txtTotal.setText(pizzaOrderSystem.getTotalBill().toString());
+
         // ****** For the Assignment, students will modify the order to fit the type of pizza the user selects using the UI widgets
 
         //display a pop up message for a long period of time
